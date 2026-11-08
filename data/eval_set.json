@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "title": "The Behaviour of Red Foxes in Woodland Habitats",
+    "content": "Red foxes are highly adaptable omnivorous mammals found throughout temperate woodlands, renowned for their bushy tail and solitary hunting techniques.",
+    "expected_subject": "red fox",
+    "expected_category": "animal",
+    "target_class": "red_fox"
+  },
+  {
+    "id": 2,
+    "title": "Winter Survival Strategies of Vulpes Vulpes",
+    "content": "During harsh winter months, the red fox relies on acute hearing to detect small rodents moving beneath thick snow covers before pouncing.",
+    "expected_subject": "red fox",
+    "expected_category": "animal",
+    "target_class": "red_fox"
+  },
+  {
+    "id": 3,
+    "title": "Apex Predators: Gray Wolf Pack Dynamics",
+    "content": "Gray wolves are social carnivores that establish strict pack hierarchies to coordinate cooperative hunting of large ungulates.",
+    "expected_subject": "gray wolf",
+    "expected_category": "animal",
+    "target_class": "gray_wolf"
+  },
+  {
+    "id": 4,
+    "title": "The Howl of the Timber Wolf Across Northern Taiga",
+    "content": "Vocalizations among gray wolf packs serve as essential territorial markers and long-range social communication across vast forest landscapes.",
+    "expected_subject": "gray wolf",
+    "expected_category": "animal",
+    "target_class": "gray_wolf"
+  },
+  {
+    "id": 5,
+    "title": "Golden Retriever Companionship and Domestic Training",
+    "content": "The domestic dog, particularly the friendly Golden Retriever, excels as a family companion, service animal, and eager canine pupil.",
+    "expected_subject": "domestic dog",
+    "expected_category": "animal",
+    "target_class": "domestic_dog"
+  },
+  {
+    "id": 6,
+    "title": "Puppy Socialization and Canine Behaviour Development",
+    "content": "Early socialization for young domestic puppies plays a pivotal role in preventing anxiety and fostering positive interactions with humans.",
+    "expected_subject": "domestic dog",
+    "expected_category": "animal",
+    "target_class": "domestic_dog"
+  },
+  {
+    "id": 7,
+    "title": "Brown Bear Hibernation Cycles in Northern Wilderness",
+    "content": "Ursus arctos, commonly known as the brown bear, undergoes prolonged winter torpor sustained by massive caloric reserves accumulated during autumn.",
+    "expected_subject": "brown bear",
+    "expected_category": "animal",
+    "target_class": "brown_bear"
+  },
+  {
+    "id": 8,
+    "title": "Grizzly Bears Foraging Along Coastal Streams",
+    "content": "Large brown bears gather along fast-moving mountain rapids to intercept migrating salmon during peak seasonal spawning runs.",
+    "expected_subject": "brown bear",
+    "expected_category": "animal",
+    "target_class": "brown_bear"
+  },
+  {
+    "id": 9,
+    "title": "Red Deer Rutting Season and Antler Morphology",
+    "content": "Male stags engage in vocal roaring contests and dramatic antler clashing to secure mating rights over female deer herds in autumn.",
+    "expected_subject": "deer",
+    "expected_category": "animal",
+    "target_class": "deer"
+  },
+  {
+    "id": 10,
+    "title": "Foraging Habits of White-Tailed Deer in Forest Clearings",
+    "content": "Cervids browse on tender twigs, leaves, and forest grasses, relying on cryptic coloration and vigilant herd behavior to evade predators.",
+    "expected_subject": "deer",
+    "expected_category": "animal",
+    "target_class": "deer"
+  },
+  {
+    "id": 11,
+    "title": "Modern High-Speed Rail Electrification in Europe",
+    "content": "High-speed rail corridors utilize 25 kV AC overhead catenary wires and regenerative braking systems to achieve energy-efficient intercity transit.",
+    "expected_subject": "rail transport",
+    "expected_category": "technology",
+    "target_class": "NONE"
+  },
+  {
+    "id": 12,
+    "title": "Semiconductor Microprocessor Transistor Scaling",
+    "content": "Gate-all-around nanosheet architectures and extreme ultraviolet photolithography enable sub-2nm node manufacturing for digital logic chips.",
+    "expected_subject": "semiconductors",
+    "expected_category": "technology",
+    "target_class": "NONE"
+  }
+]

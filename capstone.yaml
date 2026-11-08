@@ -1,0 +1,25 @@
+# ContextLens - Capstone Manifest
+# Machine-readable evaluation contract
+
+run: uvicorn main:app --host 0.0.0.0 --port 8000
+seed: python scripts/seed_demo.py
+test: pytest tests/
+base_url: http://localhost:8000
+
+endpoints:
+  - path: /health
+    method: GET
+  - path: /api/images
+    method: GET
+  - path: /api/posts
+    method: GET
+  - path: /api/posts
+    method: POST
+  - path: /api/posts/{post_id}/images
+    method: GET
+  - path: /api/reviews
+    method: POST
+  - path: /api/reviews
+    method: GET
+  - path: /api/costs
+    method: GET
