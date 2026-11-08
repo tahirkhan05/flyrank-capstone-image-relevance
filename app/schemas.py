@@ -69,3 +69,31 @@ class CostSummary(BaseModel):
     total_estimated_cost_usd: float
     breakdown_by_operation: dict
 
+
+class AltTextResponse(BaseModel):
+    image_id: int
+    filename: str
+    alt_text: str
+    subject: str
+    category: str
+    attributes: List[str]
+    wcag_compliant: bool
+    suggested_html: str
+
+
+class DuplicateItem(BaseModel):
+    image_id: int
+    filename: str
+    similarity: float
+    is_duplicate_candidate: bool
+
+
+class DuplicateCheckResponse(BaseModel):
+    image_id: int
+    filename: str
+    subject: str
+    threshold: float
+    potential_duplicates_count: int
+    duplicates: List[DuplicateItem]
+
+

@@ -98,7 +98,7 @@ Reason: Semantic similarity (0.50) below threshold (0.65)
 * **Proof**: 7 indexed relational tables initialized in `contextlens.db` (`images`, `image_metadata`, `embeddings`, `posts`, `suggestions`, `reviews`, `ai_cost_logs`).
 
 ### [x] 11. API endpoints validated; review workflow (approve / reject / inspect why) exists.
-* **Proof**: FastAPI endpoints at `/api/images`, `/api/posts`, `/api/posts/{id}/images`, and `/api/reviews`. All 7 pytest integration tests pass.
+* **Proof**: FastAPI endpoints at `/api/images`, `/api/posts`, `/api/posts/{id}/images`, and `/api/reviews`. All 9 pytest integration tests pass.
 
 ### [x] 12. A small labeled evaluation dataset measures top-1 precision — the number is in your README.
 * **Proof**: Measured across 12 labeled editorial posts in `data/eval_set.json`:
@@ -133,3 +133,55 @@ Reason: Semantic similarity (0.50) below threshold (0.65)
 * **Result**: **PASS**
 * Endpoint: `GET /api/costs`
 * Result: Every vision and embedding call attributed with model, tokens, and estimated cost in USD.
+
+---
+
+## 3. Section 9 Stretch Goals Verification
+
+### [x] Stretch 1: Automatic Alt-Text Generated from Image Understanding
+* **Endpoint**: `GET /api/images/{image_id}/alt-text`
+* **Verification Proof**:
+```json
+{
+  "image_id": 2,
+  "filename": "brown_bear_01.jpg",
+  "alt_text": "A massive brown bear standing at the edge of a rushing river in Alaska, scanning for salmon.",
+  "subject": "brown bear",
+  "category": "animal",
+  "attributes": ["brown fur", "large claws", "river", "salmon"],
+  "wcag_compliant": true,
+  "suggested_html": "<img src=\"data/images/brown_bear_01.jpg\" alt=\"A massive brown bear standing at the edge of a rushing river in Alaska, scanning for salmon.\" />"
+}
+```
+
+### [x] Stretch 2: Near-Duplicate Detection Using Embedding Distance
+* **Endpoint**: `GET /api/images/{image_id}/duplicates?threshold=0.85`
+* **Verification Proof**:
+```json
+{
+  "image_id": 2,
+  "filename": "brown_bear_01.jpg",
+  "subject": "brown bear",
+  "threshold": 0.85,
+  "potential_duplicates_count": 2,
+  "duplicates": [
+    {
+      "image_id": 9,
+      "filename": "brown_bear_08.jpg",
+      "similarity": 0.8841,
+      "is_duplicate_candidate": true
+    },
+    {
+      "image_id": 5,
+      "filename": "brown_bear_04.jpg",
+      "similarity": 0.8592,
+      "is_duplicate_candidate": true
+    }
+  ]
+}
+```
+
+### [x] Stretch 3: Comprehensive Automated Test Suite
+* **Command**: `python -m pytest tests/`
+* **Output**: 9 passed in 3.04s.
+

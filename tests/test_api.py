@@ -85,3 +85,24 @@ def test_ai_cost_logs():
     assert cost_data["total_estimated_cost_usd"] > 0.0
     assert "VISION_CLASSIFICATION" in cost_data["breakdown_by_operation"]
 
+
+def test_alt_text_generation():
+    # Stretch Goal 1: Automatic WCAG-compliant Alt-Text
+    response = client.get("/api/images/2/alt-text")
+    assert response.status_code == 200
+    data = response.json()
+    assert "alt_text" in data
+    assert len(data["alt_text"]) > 5
+    assert data["wcag_compliant"] is True
+    assert "<img" in data["suggested_html"]
+
+
+def test_duplicate_detection():
+    # Stretch Goal 2: Near-duplicate detection using embeddings
+    response = client.get("/api/images/2/duplicates?threshold=0.75")
+    assert response.status_code == 200
+    data = response.json()
+    assert "potential_duplicates_count" in data
+    assert isinstance(data["duplicates"], list)
+
+

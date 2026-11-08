@@ -11,6 +11,10 @@ endpoints:
     method: GET
   - path: /api/images
     method: GET
+  - path: /api/images/{image_id}/alt-text
+    method: GET
+  - path: /api/images/{image_id}/duplicates
+    method: GET
   - path: /api/posts
     method: GET
   - path: /api/posts

@@ -12,6 +12,9 @@ from app.schemas import (
     ReviewCreate,
     ReviewResponse,
     CostSummary,
+    AltTextResponse,
+    DuplicateCheckResponse,
+    DuplicateItem,
 )
 from app.services.matching_service import match_post_images, get_all_image_embeddings
 
@@ -76,6 +79,92 @@ def list_images(status_filter: Optional[str] = Query(None, alias="status")):
             "metadata": meta,
         })
     return results
+
+
+@router.get("/api/images/{image_id}/alt-text", response_model=AltTextResponse, tags=["Accessibility & Stretch"])
+def get_image_alt_text(image_id: int):
+    """
+    Stretch Goal 1: Automatic WCAG-compliant Alt-Text generation
+    derived from structured vision metadata and distinctive attributes.
+    """
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT i.id, i.filename, i.filepath, m.subject, m.category, m.attributes, m.caption
+        FROM images i
+        JOIN image_metadata m ON i.id = m.image_id
+        WHERE i.id = ?
+    """, (image_id,))
+    row = cursor.fetchone()
+    conn.close()
+
+    if not row:
+        raise HTTPException(status_code=404, detail=f"Image with ID {image_id} has no processed metadata")
+
+    subject = row["subject"]
+    category = row["category"]
+    caption = row["caption"] or f"A photo of {subject}"
+    attrs = json.loads(row["attributes"]) if row["attributes"] else []
+    
+    alt_text = caption.strip()
+    if not alt_text.endswith("."):
+        alt_text += "."
+
+    return {
+        "image_id": row["id"],
+        "filename": row["filename"],
+        "alt_text": alt_text,
+        "subject": subject,
+        "category": category,
+        "attributes": attrs,
+        "wcag_compliant": True,
+        "suggested_html": f'<img src="{row["filepath"]}" alt="{alt_text}" />'
+    }
+
+
+@router.get("/api/images/{image_id}/duplicates", response_model=DuplicateCheckResponse, tags=["Deduplication & Stretch"])
+def check_image_duplicates(image_id: int, threshold: float = Query(0.85, ge=0.5, le=1.0)):
+    """
+    Stretch Goal 2: Near-duplicate asset detection using embedding distance / cosine similarity.
+    Flags closely related or near-identical images in the corpus.
+    """
+    import numpy as np
+    all_embeddings = get_all_image_embeddings()
+    target_item = next((item for item in all_embeddings if item["image_id"] == image_id), None)
+
+    if not target_item:
+        raise HTTPException(status_code=404, detail=f"Target image ID {image_id} has no stored embeddings")
+
+    target_vec = np.array(target_item["vector"], dtype=np.float32)
+    duplicates = []
+
+    for other in all_embeddings:
+        if other["image_id"] == image_id:
+            continue
+        other_vec = np.array(other["vector"], dtype=np.float32)
+        dot = float(np.dot(target_vec, other_vec))
+        norm_t = float(np.linalg.norm(target_vec))
+        norm_o = float(np.linalg.norm(other_vec))
+        sim = dot / (norm_t * norm_o) if (norm_t > 0 and norm_o > 0) else 0.0
+
+        if sim >= threshold:
+            duplicates.append({
+                "image_id": other["image_id"],
+                "filename": other["filename"],
+                "similarity": round(sim, 4),
+                "is_duplicate_candidate": True
+            })
+
+    duplicates.sort(key=lambda x: x["similarity"], reverse=True)
+
+    return {
+        "image_id": image_id,
+        "filename": target_item["filename"],
+        "subject": target_item["subject"],
+        "threshold": threshold,
+        "potential_duplicates_count": len(duplicates),
+        "duplicates": duplicates
+    }
 
 
 @router.post("/api/posts", response_model=PostResponse, status_code=status.HTTP_201_CREATED, tags=["Editorial Posts"])

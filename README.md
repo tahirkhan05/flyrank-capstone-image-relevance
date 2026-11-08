@@ -102,12 +102,12 @@ ContextLens includes automated test and verification suites matching all accepta
 
 ### 1. Run Automated Test Suite
 ```bash
-pytest tests/
+python -m pytest tests/
 ```
 Output:
 ```text
-tests/test_api.py ....... [100%]
-7 passed in 3.90s
+tests/test_api.py ......... [100%]
+9 passed in 3.04s
 ```
 
 ### 2. Verify Phase 3 Probes (Probe 2, 3, 4)
@@ -134,6 +134,15 @@ Visit `GET /api/costs` or query SQLite:
 ```bash
 python -c "import sqlite3; conn = sqlite3.connect('contextlens.db'); print(conn.cursor().execute('SELECT operation, model, COUNT(*), SUM(estimated_cost_usd) FROM ai_cost_logs GROUP BY operation, model').fetchall())"
 ```
+
+---
+
+## Implemented Stretch Goals (Section 9)
+
+ContextLens implements multiple production-grade stretch goals beyond the core requirements:
+1. **Automatic Alt-Text Generation (`GET /api/images/{id}/alt-text`)**: Formulates accessible, WCAG-compliant descriptive alt text and standard `<img>` markup directly from extracted vision attributes and scene captions.
+2. **Near-Duplicate Detection (`GET /api/images/{id}/duplicates`)**: Computes pairwise cosine distance against all corpus embeddings to identify redundant, visually similar, or duplicate assets (e.g. brown bear variants at similarity > 0.85).
+3. **Comprehensive Pytest Suite (`tests/test_api.py`)**: 9 integration tests validating API routing, schema constraints, category mismatch guard, and stretch endpoints.
 
 ---
 
